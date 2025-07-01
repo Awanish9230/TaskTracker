@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #86909b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .signup-container {
+      background: rgb(153, 151, 151);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .signup-btn,
+    .google-btn {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 1rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .signup-btn {
+      background: #2c3e50;
+      color: white;
+    }
+
+    .signup-btn:hover {
+      background: #34495e;
+    }
+
+    .google-btn {
+      background: #ffffff;
+      color: #444;
+      border: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .google-btn img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .divider {
+      margin: 1rem 0;
+      font-weight: bold;
+      color: #888;
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: green;
+    }
+
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="signup-container">
+    <h1>📝 Sign Up</h1>
+
+    <!-- Email Sign-Up Form -->
+    <form id="signupForm">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit" class="signup-btn">Sign Up with Email</button>
+    </form>
+
+    <div class="divider">OR</div>
+
+    <!-- Google Sign-Up Button -->
+    <button id="googleSignupBtn" class="google-btn">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google" />
+      Sign Up with Google
+    </button>
+
+    <div id="message" class="message"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      GoogleAuthProvider,
+      signInWithPopup
+    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyApjRURrtUnFHilXvutv5gNI5PXhYKsC7E",
+      authDomain: "auth-8c049.firebaseapp.com",
+      projectId: "auth-8c049",
+      storageBucket: "auth-8c049.appspot.com",
+      messagingSenderId: "251151001451",
+      appId: "1:251151001451:web:11a27f6679b70f24fe4e2e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const form = document.getElementById("signupForm");
+    const googleBtn = document.getElementById("googleSignupBtn");
+    const messageBox = document.getElementById("message");
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          messageBox.textContent = "✅ Account created successfully!";
+          messageBox.classList.remove("error");
+          window.location.href = "authhSignIn.html";
+        })
+        .catch((error) => {
+          messageBox.textContent = "❌ " + error.message;
+          messageBox.classList.add("error");
+        });
+    });
+
+    googleBtn.addEventListener("click", function () {
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          messageBox.textContent = "✅ Signed up with Google!";
+          messageBox.classList.remove("error");
+        })
+        .catch((error) => {
+          messageBox.textContent = "❌ " + error.message;
+          messageBox.classList.add("error");
+        });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In</title>
+  <link rel="stylesheet" href="auth.css" />
+</head>
+<body>
+  <div class="signin-container">
+    <h1>🔐 Sign In</h1>
+
+    <!-- Email Sign-In Form -->
+    <form id="emailForm">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button class="loginBtn" type="submit">Sign In with Email</button>
+    </form>
+
+    <div class="divider">OR</div>
+
+    <!-- Google Sign-In Button -->
+    <button id="googleSignInBtn" class="google-btn">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google" />
+      Sign In with Google
+    </button>
+  </div>
+
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithPopup,
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyApjRURrtUnFHilXvutv5gNI5PXhYKsC7E",
+    authDomain: "auth-8c049.firebaseapp.com",
+    projectId: "auth-8c049",
+    storageBucket: "auth-8c049.appspot.com",
+    messagingSenderId: "251151001451",
+    appId: "1:251151001451:web:11a27f6679b70f24fe4e2e"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Email Sign In
+  const emailForm = document.getElementById("emailForm");
+  emailForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        window.location.href = "index.html";
+        // window.location.href = "x.html";
+        // alert("Signed in successfully!");
+        console.log(user);
+      })
+      .catch((error) => {
+        alert("Error: " + error.message);
+        console.error(error);
+      });
+  });
+
+  // Google Sign In
+  const googleBtn = document.getElementById("googleSignInBtn");
+  googleBtn.addEventListener("click", function () {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        alert("Signed in with Google!");
+        console.log(user);
+      })
+      .catch((error) => {
+        alert("Google Sign-In Error: " + error.message);
+        console.error(error);
+      });
+  });
+</script>
+
+</body>
+</html>

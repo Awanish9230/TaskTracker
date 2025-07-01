@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Routine Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <link rel="icon" type="image/png" href="logo.png">
+</head>
+<body>
+    <header>
+      <h1>Daily Routine Tracker</h1>
+      <div class="auth-buttons" id="auth-buttons">
+        <a href="authSignUp.html">Sign-Up</a>
+        <a href="authhSignIn.html">Sign-In</a>
+      </div>
+      <div id="profile-section" class="profile-section" style="display:none;">
+        <div id="profile-initial" class="profile">U</div>
+        <button id="logoutBtn">Logout</button>
+      </div>
+      <button id="theme-toggle">Switch to Dark Mode</button>
+    </header>
+
+
+    <main>
+        <section id="part1">
+            <section id="tracker">
+                <h2>Track Your Activities</h2>
+                <form id="activity-form">
+                    <label for="activity">Activity:</label>
+                    <select id="activity" name="activity" required>
+                        <option value="study">Study</option>
+                        <option value="mobile">Mobile</option>
+                        <option value="laptop">Laptop</option>
+                        <option value="coding">Coding</option>
+                        <option value="workout">Workout</option>
+                        <option value="college">College</option>
+                        <option value="market">Market</option>
+                        <option value="miscellaneous">Miscellaneous</option>
+                        <option value="sleeping">Sleeping</option>
+                    </select>
+    
+                    <label for="duration">Duration (in minutes):</label>
+                    <input type="number" id="duration" name="duration" required>
+    
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" required>
+    
+                     <label for="intensity">Add:</label>
+                    <button type="submit">Add Activity</button>
+                </form>
+            </section>
+    
+            <section id="reports">
+                <h2>Reports</h2>
+    
+                <h3>Daily Report (Today: <span id="daily-date"></span>)</h3>
+                <canvas id="dailyPieChart"></canvas>
+                <canvas id="dailyBarChart"></canvas>
+    
+                <h3>Weekly Report (From <span id="week-start"></span> to <span id="week-end"></span>)</h3>
+                <button id="print-weekly">Print Weekly Report</button>
+                <div id="weekly-report">
+                    <canvas id="weeklyPieChart"></canvas>
+                    <canvas id="weeklyBarChart"></canvas>
+                </div>
+    
+                <h3>Monthly Report (From <span id="month-start"></span> to <span id="month-end"></span>)</h3>
+                <div id="monthly-report">
+                    <canvas id="monthlyPieChart"></canvas>
+                    <canvas id="monthlyBarChart"></canvas>
+                </div>
+    
+                <h3>Yearly Report</h3>
+                <canvas id="yearlyPieChart"></canvas>
+                <canvas id="yearlyBarChart"></canvas>
+            </section>
+        </section>
+    
+
+        <!-- Daily task  -->
+        <section id="part2" class="containerTask">
+          <h1>📝 Task Manager</h1>
+
+          <div class="task-input">
+            <input type="text" id="taskInput" placeholder="Enter a new task..." />
+            <button onclick="addTask()">Add</button>
+          </div>
+
+          <div class="task-section">
+            <h2>📌 Incomplete Tasks</h2>
+            <ul id="incompleteTasks"></ul>
+          </div>
+
+          <div class="task-section">
+            <h2>✅ Completed Tasks</h2>
+            <ul id="completedTasks"></ul>
+          </div>
+        </section> 
+        
+        <!-- Stopwatch -->
+        <section id="part3" class="containerTask">
+          <h1>⏱ Stopwatch</h1>
+          <div class="stopwatch">
+            <span id="timeDisplay">00:00:00</span>
+            <div class="stopwatch-buttons">
+              <button onclick="startTimer()">Start</button>
+              <button onclick="pauseTimer()">Pause</button>
+              <button onclick="resetTimer()">Reset</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="part4">
+          <div class="containerStreak">
+            <h1>🔥 Streak Calendar</h1>
+            <p id="monthYear"></p>
+            <p>Click a date to mark as done ✅</p>
+            <div id="calendar"></div>
+          </div>       
+        </section>
+    </main>  
+
+    <script type="module" src="script.js"></script>
+
+</body>
+</html>
